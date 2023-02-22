@@ -1,0 +1,54 @@
+.container {
+  padding: 0 2rem;
+  background-color: #fcfcfc;
+}
+
+.main {
+  min-height: 100vh;
+  padding: 4rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  display: flex;
+  flex: 1;
+  padding: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.tile {
+  padding: 1rem;
+  margin: .25rem;
+  border: 1px solid #828282;
+  background-color: #bdbdbd;
+  width: 6em;
+  height: 6em;
+  text-align: center;
+}
+
+.inputTile {
+  padding: .5rem;
+  margin: .25rem;
+  border: 1px solid #eaeaea;
+  width: 3em;
+  height: 3em;
+  text-align: center;
+}
+
+.inputTile:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
