@@ -1,4 +1,4 @@
-import { importSPKI, jwtVerify } from 'jose';
+import { importSPKI, jwtVerify } from "jose";
 
 const spki = `-----BEGIN PUBLIC KEY-----
 MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAy+mt6OKnaxgRWlZ9+2oY
@@ -16,20 +16,20 @@ OBm4UfB/82BnoO1dS+yXzqx41ZmdtgmIrV3zTalmWjV26kKkoYHR4IQD0/OgY9Z8
 -----END PUBLIC KEY-----`;
 
 export async function getUser(authorizationHeader: string | undefined) {
-    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
-        return null;
-    }
+  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
+    return null;
+  }
 
-    const jwt = authorizationHeader.split(' ')[1];
-    try {
-        const publicKey = await importSPKI(spki, 'RS256');
-        const { payload } = await jwtVerify(jwt || '', publicKey, {
-            issuer: 'app.dynamic.xyz/cb5b68a5-9b26-4a13-8893-8fbfa62b104b',
-            audience: 'http://localhost:3000',
-        });
+  const jwt = authorizationHeader.split(" ")[1];
+  try {
+    const publicKey = await importSPKI(spki, "RS256");
+    const { payload } = await jwtVerify(jwt || "", publicKey, {
+      issuer: "app.dynamic.xyz/cb5b68a5-9b26-4a13-8893-8fbfa62b104b",
+      audience: "http://localhost:3000",
+    });
 
-        return payload;
-    } catch (error) {
-        return null;
-    };
+    return payload;
+  } catch (error) {
+    return null;
+  }
 }
