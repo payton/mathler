@@ -20,7 +20,7 @@ export type SessionPutResponse = {
   status: {
     gameOver: boolean;
     won: boolean;
-  }
+  };
   message: string;
   board: string;
   colors: string;

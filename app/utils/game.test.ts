@@ -293,23 +293,47 @@ describe("isValidMove", () => {
 
 describe("getGameState", () => {
   test("in progress", () => {
-    expect(getGameState("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
-    expect(getGameState("RGRGRGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
-    expect(getGameState("RRRRRRRRRRRRWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
-    expect(getGameState("RRRRRRYYYYYYWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
+    expect(getGameState("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.IN_PROGRESS
+    );
+    expect(getGameState("RGRGRGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.IN_PROGRESS
+    );
+    expect(getGameState("RRRRRRRRRRRRWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.IN_PROGRESS
+    );
+    expect(getGameState("RRRRRRYYYYYYWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.IN_PROGRESS
+    );
   });
 
   test("won", () => {
-    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGGGGGG")).toBe(GameState.WON);
-    expect(getGameState("YYYYYYYYYYYYGGGGGGWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
-    expect(getGameState("GGGGGGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
-    expect(getGameState("RGRGYRGGGGGGWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
+    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGGGGGG")).toBe(
+      GameState.WON
+    );
+    expect(getGameState("YYYYYYYYYYYYGGGGGGWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.WON
+    );
+    expect(getGameState("GGGGGGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.WON
+    );
+    expect(getGameState("RGRGYRGGGGGGWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(
+      GameState.WON
+    );
   });
 
   test("lost", () => {
-    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")).toBe(GameState.LOST);
-    expect(getGameState("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")).toBe(GameState.LOST);
-    expect(getGameState("RGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGY")).toBe(GameState.LOST);
-    expect(getGameState("GGYYGGYYGGYYGGGYYYGGGYYYGGGYYYGRYGYY")).toBe(GameState.LOST);
+    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")).toBe(
+      GameState.LOST
+    );
+    expect(getGameState("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")).toBe(
+      GameState.LOST
+    );
+    expect(getGameState("RGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGY")).toBe(
+      GameState.LOST
+    );
+    expect(getGameState("GGYYGGYYGGYYGGGYYYGGGYYYGGGYYYGRYGYY")).toBe(
+      GameState.LOST
+    );
   });
 });

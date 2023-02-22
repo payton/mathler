@@ -129,20 +129,22 @@ export function getUpdatedColors(
 }
 
 export function getGameState(colors: string): GameState {
-    const end = colors.indexOf("W") == -1 ? colors.length : colors.indexOf("W");
-    const start = end - 6;
+  const end = colors.indexOf("W") == -1 ? colors.length : colors.indexOf("W");
+  const start = end - 6;
 
-    if (start < 0) {
-        return GameState.IN_PROGRESS;
-    }
+  if (start < 0) {
+    return GameState.IN_PROGRESS;
+  }
 
-    const lastColors = colors.substring(start, end);
+  const lastColors = colors.substring(start, end);
 
-    if (lastColors === "GGGGGG") {
-        return GameState.WON;
-    } else if ((/^(R|Y|G){6}$/).test(colors.substring(colors.length - 6, colors.length))) {
-        return GameState.LOST;
-    } else {
-        return GameState.IN_PROGRESS;
-    }
+  if (lastColors === "GGGGGG") {
+    return GameState.WON;
+  } else if (
+    /^(R|Y|G){6}$/.test(colors.substring(colors.length - 6, colors.length))
+  ) {
+    return GameState.LOST;
+  } else {
+    return GameState.IN_PROGRESS;
+  }
 }

@@ -147,7 +147,7 @@ const Mathler: NextPage = () => {
         className="h-screen w-screen flex flex-col"
         style={{ backgroundColor: "#018080" }}
       >
-        <div className="w-full h-full" id="desktop">
+        <div className="w-full h-full">
           <div className="desktop-screen window inline-block select-none">
             {!loading && (
               <>
@@ -163,12 +163,8 @@ const Mathler: NextPage = () => {
                     </div>
                   </div>
                   <div className="title-bar-controls">
-                    <button id="toggleSize" aria-label="Maximize"></button>
-                    <button
-                      id="closeButton"
-                      aria-label="Close"
-                      title="Sign-Out"
-                    ></button>
+                    <button aria-label="Maximize"></button>
+                    <button aria-label="Close" title="Sign-Out"></button>
                   </div>
                 </div>
                 <div className="window-body">
@@ -203,7 +199,7 @@ const Mathler: NextPage = () => {
                 &nbsp;Sign Out
               </div>
             </button>
-            <button className="m-1" id="personalNotepad">
+            <button className="m-1">
               <div className="flex items-left justify-evenly">
                 Mathler - Session ID ({sessionId})
               </div>

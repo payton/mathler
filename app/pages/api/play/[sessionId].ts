@@ -6,7 +6,11 @@ import {
   SessionPutResponse,
 } from "../../../utils/types";
 import { getUser } from "../../../utils/auth";
-import { isValidMove, getUpdatedColors, getGameState } from "../../../utils/game";
+import {
+  isValidMove,
+  getUpdatedColors,
+  getGameState,
+} from "../../../utils/game";
 import { evaluate } from "mathjs";
 
 const prisma = new PrismaClient();
@@ -80,7 +84,7 @@ export default async function handler(
 
     const newColors = getUpdatedColors(body.board, session.colors, game.answer);
     const gameState = getGameState(newColors);
-    
+
     const updatedSession = await prisma.session.update({
       where: {
         id: session.id,
