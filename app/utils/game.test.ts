@@ -259,6 +259,16 @@ describe("isValidMove", () => {
       )
     ).not.toBeUndefined();
   });
+
+  test("end-game is accepted", () => {
+    expect(
+      isValidMove(
+        "111111111111111111111111111111111111",
+        "111111111111111111111111111111??????",
+        111111
+      )
+    ).toBeUndefined();
+  });
 });
 
 describe("getGameState", () => {

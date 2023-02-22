@@ -137,8 +137,6 @@ export function getGameState(colors: string): GameState {
     }
 
     const lastColors = colors.substring(start, end);
-    console.log(lastColors);
-    console.log((/^(R|Y|G){6}$/).test(lastColors));
 
     if (lastColors === "GGGGGG") {
         return GameState.WON;
