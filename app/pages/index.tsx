@@ -7,7 +7,7 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react";
 import axios from "axios";
 import {
   SessionGetResponse,
-  StartPostResponse,
+  SessionPostResponse,
   SessionPutRequest,
   SessionPutResponse,
   LeaderboardGetResponse,
@@ -66,7 +66,7 @@ const Mathler: NextPage = () => {
 
   function getOrUpdateNewSession() {
     axios
-    .post<StartPostResponse>(
+    .post<SessionPostResponse>(
       "/api/play",
       {},
       {
