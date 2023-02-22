@@ -66,33 +66,33 @@ const Mathler: NextPage = () => {
 
   function getOrUpdateNewSession() {
     axios
-    .post<SessionPostResponse>(
-      "/api/play",
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-      }
-    )
-    .then((response) => {
-      setSessionId(response.data.id);
-      axios
-        .get<SessionGetResponse>(`/api/play/${response.data.id}`, {
+      .post<SessionPostResponse>(
+        "/api/play",
+        {},
+        {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${authToken}`,
           },
-        })
-        .then((response) => {
-          setBoard(response.data.board);
-          setColors(response.data.colors);
-          setTarget(response.data.target);
-          setGuessNumber(response.data.colors.indexOf("W") / 6);
-          setLoading(false);
-        });
-    });
+        }
+      )
+      .then((response) => {
+        setSessionId(response.data.id);
+        axios
+          .get<SessionGetResponse>(`/api/play/${response.data.id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+          })
+          .then((response) => {
+            setBoard(response.data.board);
+            setColors(response.data.colors);
+            setTarget(response.data.target);
+            setGuessNumber(response.data.colors.indexOf("W") / 6);
+            setLoading(false);
+          });
+      });
   }
 
   // Event Handlers
@@ -235,10 +235,16 @@ const Mathler: NextPage = () => {
                 &nbsp;Sign Out
               </div>
             </button>
-            <button className="m-1 flex items-center justify-evenly" onClick={() => setGameActive(true)}>
+            <button
+              className="m-1 flex items-center justify-evenly"
+              onClick={() => setGameActive(true)}
+            >
               Mathler - Session ID ({sessionId})
             </button>
-            <button className="m-1 flex items-center justify-evenly" onClick={() => setGameActive(false)}>
+            <button
+              className="m-1 flex items-center justify-evenly"
+              onClick={() => setGameActive(false)}
+            >
               Leaderboard
             </button>
           </div>

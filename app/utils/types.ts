@@ -29,7 +29,7 @@ export type LeaderboardGetResponse = {
     owner: string;
     count: number;
   }[];
-}
+};
 
 export type GuessBounds = {
   start: number;
