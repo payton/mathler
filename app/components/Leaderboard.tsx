@@ -8,7 +8,7 @@ const Leaderboard = (props: LeaderboardProps) => {
 
     const renderedLeaders = props.data.leaderboard.map((leader, idx) => {
         return (
-            <li>
+            <li key={`${leader.owner}-${idx}`}>
                 Place: {idx + 1}
                 <ul>
                     <li>Player: {leader.owner}</li>
