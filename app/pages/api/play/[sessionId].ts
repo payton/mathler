@@ -47,6 +47,7 @@ export default async function handler(
   });
 
   if (req.method === "GET") {
+    console.log(game.answer);
     const response: SessionGetResponse = {
       id: session.id,
       target: evaluate(game.answer),

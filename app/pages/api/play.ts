@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { StartPostResponse } from "../../utils/types";
+import { SessionPostResponse } from "../../utils/types";
 import { getUser } from "../../utils/auth";
 
 const prisma = new PrismaClient();
@@ -24,7 +24,8 @@ export default async function handler(
     });
 
     if (existingSession) {
-      const response: StartPostResponse = {
+      // Return existing session
+      const response: SessionPostResponse = {
         success: false,
         id: existingSession.id,
       };
@@ -33,14 +34,17 @@ export default async function handler(
       return;
     }
 
+    const count = await prisma.game.count();
+
+    // Get a random game for this new session
     const session = await prisma.session.create({
       data: {
-        gameId: 1,
+        gameId: Math.floor(Math.random() * count) + 1,
         owner: user.info.walletPublicKey,
       },
     });
 
-    const response: StartPostResponse = {
+    const response: SessionPostResponse = {
       success: true,
       id: session.id,
     };

@@ -24,8 +24,8 @@ const Leaderboard = (props: LeaderboardProps) => {
             <div className="title-bar-text">
             <div className="flex">
                 <img
-                src="/w98-calculator.png"
-                alt="Windows 98 calculator icon"
+                src="/w98-doc.webp"
+                alt="Windows 98 doc icon"
                 className="w-4 h-4 mr-1"
                 />
                 Leaderboard

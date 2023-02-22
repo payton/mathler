@@ -52,39 +52,48 @@ const Mathler: NextPage = () => {
     if (!user) {
       router.push("/login");
     } else {
-      axios
-        .post<StartPostResponse>(
-          "/api/start",
-          {},
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        )
-        .then((response) => {
-          setSessionId(response.data.id);
-          axios
-            .get<SessionGetResponse>(`/api/play/${response.data.id}`, {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`,
-              },
-            })
-            .then((response) => {
-              setBoard(response.data.board);
-              setColors(response.data.colors);
-              setTarget(response.data.target);
-              setGuessNumber(response.data.colors.indexOf("W") / 6);
-              setLoading(false);
-            });
-        });
-      axios.get<LeaderboardGetResponse>("/api/leaderboard").then((response) => {
-        setLeaderboard(response.data);
-      });
+      getOrUpdateNewSession();
+      updateLeaderboard();
     }
   }, [user]);
+
+  // API Calls (should be in data directory if larger project)
+  function updateLeaderboard() {
+    axios.get<LeaderboardGetResponse>("/api/leaderboard").then((response) => {
+      setLeaderboard(response.data);
+    });
+  }
+
+  function getOrUpdateNewSession() {
+    axios
+    .post<StartPostResponse>(
+      "/api/play",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    )
+    .then((response) => {
+      setSessionId(response.data.id);
+      axios
+        .get<SessionGetResponse>(`/api/play/${response.data.id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then((response) => {
+          setBoard(response.data.board);
+          setColors(response.data.colors);
+          setTarget(response.data.target);
+          setGuessNumber(response.data.colors.indexOf("W") / 6);
+          setLoading(false);
+        });
+    });
+  }
 
   // Event Handlers
   function handleInputTileClick(value: string) {
@@ -139,6 +148,9 @@ const Mathler: NextPage = () => {
               setMessageTitle("You won!");
               setMessageBody("View your progress on the leaderboard.");
               setShowMessage(true);
+              updateLeaderboard();
+              setGameActive(false);
+              getOrUpdateNewSession();
             } else {
               setMessageTitle("You lost.");
               setMessageBody("Better luck next time.");

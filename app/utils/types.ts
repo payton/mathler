@@ -1,4 +1,4 @@
-export type StartPostResponse = {
+export type SessionPostResponse = {
   success: boolean;
   id: number;
 };
