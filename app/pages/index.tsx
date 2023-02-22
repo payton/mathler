@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import Board from "../components/Board";
 import Controls from "../components/Controls";
 import Leaderboard from "../components/Leaderboard";
+import Image from "next/image";
 
 const Mathler: NextPage = () => {
   const router = useRouter();
@@ -182,6 +183,23 @@ const Mathler: NextPage = () => {
       >
         <div className="w-full h-full">
           <div className="desktop-screen window inline-block select-none">
+            {loading && (
+              <>
+              <div className="title-bar">
+                <div className="title-bar-text">
+                  <div className="flex">
+                    <img
+                      src="/hourglass.gif"
+                      alt="Windows 98 hourglass icon"
+                      className="w-4 h-4 mr-1"
+                    />
+                    Loading
+                  </div>
+                </div>
+              </div>
+              <Image src={'/hourglass.gif'} height={100} width={100}></Image>
+              </>
+            )}
             {!loading && gameActive && (
               <>
                 <div className="title-bar">
