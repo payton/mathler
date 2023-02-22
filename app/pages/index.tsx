@@ -188,12 +188,7 @@ const Mathler: NextPage = () => {
               <div className="title-bar">
                 <div className="title-bar-text">
                   <div className="flex">
-                    <img
-                      src="/hourglass.gif"
-                      alt="Windows 98 hourglass icon"
-                      className="w-4 h-4 mr-1"
-                    />
-                    Loading
+                    Loading...
                   </div>
                 </div>
               </div>
