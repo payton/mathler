@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Mathler.module.css";
 
 type InputTileProps = {
   value: string;

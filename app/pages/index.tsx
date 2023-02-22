@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import Board from "../components/Board";
 import Controls from "../components/Controls";
 
-const Home: NextPage = () => {
+const Mathler: NextPage = () => {
   const router = useRouter();
   const { user, authToken, handleLogOut } = useDynamicContext();
 
@@ -253,4 +253,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Mathler;
