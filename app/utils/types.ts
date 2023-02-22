@@ -17,6 +17,10 @@ export type SessionPutRequest = {
 export type SessionPutResponse = {
   success: boolean;
   id: number;
+  status: {
+    gameOver: boolean;
+    won: boolean;
+  }
   message: string;
   board: string;
   colors: string;
@@ -26,3 +30,9 @@ export type GuessBounds = {
   start: number;
   end: number;
 };
+
+export enum GameState {
+  IN_PROGRESS = "IN_PROGRESS",
+  LOST = "LOST",
+  WON = "WON",
+}

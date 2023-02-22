@@ -6,7 +6,7 @@ import {
   SessionPutResponse,
 } from "../../../utils/types";
 import { getUser } from "../../../utils/auth";
-import { isValidMove, getUpdatedColors } from "../../../utils/game";
+import { isValidMove, getUpdatedColors, getGameState } from "../../../utils/game";
 import { evaluate } from "mathjs";
 
 const prisma = new PrismaClient();
@@ -66,6 +66,10 @@ export default async function handler(
       const response: SessionPutResponse = {
         success: false,
         message: errorMessage,
+        status: {
+          gameOver: false,
+          won: false,
+        },
         id: session.id,
         board: session.board,
         colors: session.colors,
@@ -74,6 +78,9 @@ export default async function handler(
       return;
     }
 
+    const newColors = getUpdatedColors(body.board, session.colors, game.answer);
+    const gameState = getGameState(newColors);
+    
     const updatedSession = await prisma.session.update({
       where: {
         id: session.id,
@@ -81,12 +88,18 @@ export default async function handler(
       data: {
         board: body.board,
         colors: getUpdatedColors(body.board, session.colors, game.answer),
+        complete: gameState === "WON" || gameState === "LOST",
+        won: gameState === "WON",
       },
     });
 
     const response: SessionPutResponse = {
       success: true,
       message: "Success",
+      status: {
+        gameOver: updatedSession.complete,
+        won: gameState === "WON",
+      },
       id: updatedSession.id,
       board: updatedSession.board,
       colors: updatedSession.colors,

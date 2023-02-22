@@ -99,9 +99,8 @@ const Mathler: NextPage = () => {
   function handleDelete() {
     let nextGuessLocation = board.indexOf("?");
     if (
-      nextGuessLocation > 0 &&
-      Math.floor(nextGuessLocation / 6) ===
-        Math.floor((nextGuessLocation - 1) / 6)
+      nextGuessLocation >= guessNumber * 6 + 1 &&
+      nextGuessLocation <= guessNumber * 6 + 6
     ) {
       setBoard(replaceChar(board, nextGuessLocation - 1, "?"));
     }

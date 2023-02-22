@@ -1,6 +1,6 @@
 import { Game, Session } from "@prisma/client";
 import { evaluate } from "mathjs";
-import { GuessBounds } from "./types";
+import { GuessBounds, GameState } from "./types";
 
 export function validateGuess(guess: string) {
   try {
@@ -72,9 +72,7 @@ export function isValidMove(
   // Check that start and end are in bounds and that the new guess is immediately after the last guess
   if (
     start < 0 ||
-    end < 0 ||
-    start >= newBoard.length ||
-    end >= newBoard.length ||
+    end > newBoard.length ||
     (start > 0 && newBoard[start - 1] === "?")
   ) {
     return "Invalid guess. You must fill in the entire row.";
@@ -128,4 +126,25 @@ export function getUpdatedColors(
     color +
     oldColors.substring(bounds.end)
   );
+}
+
+export function getGameState(colors: string): GameState {
+    const end = colors.indexOf("W") == -1 ? colors.length : colors.indexOf("W");
+    const start = end - 6;
+
+    if (start < 0) {
+        return GameState.IN_PROGRESS;
+    }
+
+    const lastColors = colors.substring(start, end);
+    console.log(lastColors);
+    console.log((/^(R|Y|G){6}$/).test(lastColors));
+
+    if (lastColors === "GGGGGG") {
+        return GameState.WON;
+    } else if ((/^(R|Y|G){6}$/).test(colors.substring(colors.length - 6, colors.length))) {
+        return GameState.LOST;
+    } else {
+        return GameState.IN_PROGRESS;
+    }
 }

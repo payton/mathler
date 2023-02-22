@@ -6,7 +6,9 @@ import {
   isValidMove,
   getUpdatedColors,
   isValidBoard,
+  getGameState,
 } from "./game";
+import { GameState } from "./types";
 
 describe("getLastGuessBounds", () => {
   test("identifies new game boundary", () => {
@@ -256,5 +258,28 @@ describe("isValidMove", () => {
         10
       )
     ).not.toBeUndefined();
+  });
+});
+
+describe("getGameState", () => {
+  test("in progress", () => {
+    expect(getGameState("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
+    expect(getGameState("RGRGRGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
+    expect(getGameState("RRRRRRRRRRRRWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
+    expect(getGameState("RRRRRRYYYYYYWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.IN_PROGRESS);
+  });
+
+  test("won", () => {
+    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGGGGGG")).toBe(GameState.WON);
+    expect(getGameState("YYYYYYYYYYYYGGGGGGWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
+    expect(getGameState("GGGGGGWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
+    expect(getGameState("RGRGYRGGGGGGWWWWWWWWWWWWWWWWWWWWWWWW")).toBe(GameState.WON);
+  });
+
+  test("lost", () => {
+    expect(getGameState("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")).toBe(GameState.LOST);
+    expect(getGameState("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")).toBe(GameState.LOST);
+    expect(getGameState("RGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGYRGY")).toBe(GameState.LOST);
+    expect(getGameState("GGYYGGYYGGYYGGGYYYGGGYYYGGGYYYGRYGYY")).toBe(GameState.LOST);
   });
 });
