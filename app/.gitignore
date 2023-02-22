@@ -39,3 +39,6 @@ yarn-error.log*
 
 # prisma
 *.db
+
+# environment file
+.env
