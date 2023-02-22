@@ -18,8 +18,10 @@ const Board = (props: BoardProps) => {
     });
 
     return (
-        <div className='grid grid-cols-6 grid-rows-6'>
-            {renderedTiles}
+        <div className='flex justify-center'>
+            <div className='grid grid-cols-6 grid-rows-6'>
+                {renderedTiles}
+            </div>
         </div>
     )
 }

@@ -140,9 +140,7 @@ const Home: NextPage = () => {
                 </div>
                 
                 <div className='window-body'>
-                  <div className='flex justify-center'>
-                    <Board board={board} colors={colors}></Board>
-                  </div>
+                  <Board board={board} colors={colors}></Board>
                   <Controls enterCallback={handleEnter} deleteCallback={handleDelete} inputCallback={handleInputTileClick}></Controls>
                 </div>
                 <div className="status-bar">
