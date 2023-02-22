@@ -185,14 +185,12 @@ const Mathler: NextPage = () => {
           <div className="desktop-screen window inline-block select-none">
             {loading && (
               <>
-              <div className="title-bar">
-                <div className="title-bar-text">
-                  <div className="flex">
-                    Loading...
+                <div className="title-bar">
+                  <div className="title-bar-text">
+                    <div className="flex">Loading...</div>
                   </div>
                 </div>
-              </div>
-              <Image src={'/hourglass.gif'} height={100} width={100}></Image>
+                <Image src={"/hourglass.gif"} height={100} width={100}></Image>
               </>
             )}
             {!loading && gameActive && (
