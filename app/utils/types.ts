@@ -1,3 +1,4 @@
+// API Types
 export type SessionPostResponse = {
   success: boolean;
   id: number;
@@ -31,6 +32,7 @@ export type LeaderboardGetResponse = {
   }[];
 };
 
+// Misc Types
 export type GuessBounds = {
   start: number;
   end: number;

@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react";
+import { useDynamicContext } from "@dynamic-labs/sdk-react";
 import "98.css";
+import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
+  const router = useRouter();
   const { user, setShowAuthFlow } = useDynamicContext();
 
   if (user) {
-    window.location.href = "/";
+    router.push("/");
   }
 
   return (

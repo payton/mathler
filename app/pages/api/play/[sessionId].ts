@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import {
+  GameState,
   SessionGetResponse,
   SessionPutRequest,
   SessionPutResponse,
@@ -39,7 +40,6 @@ export default async function handler(
     },
   });
 
-  // TODO: Handle case if there are multiple games
   const game = await prisma.game.findUniqueOrThrow({
     where: {
       id: session.gameId,
@@ -47,6 +47,7 @@ export default async function handler(
   });
 
   if (req.method === "GET") {
+    // Leaving this here for testing
     console.log(game.answer);
     const response: SessionGetResponse = {
       id: session.id,
@@ -57,16 +58,19 @@ export default async function handler(
     res.status(200).json(response);
   } else if (req.method === "PUT") {
     const body: SessionPutRequest = req.body;
+
     if (!body.board) {
       res.status(400).json({ message: "Bad request." });
       return;
     }
 
+    // Assert proposed board state is a valid next move
     const errorMessage = isValidMove(
       body.board,
       session.board,
       evaluate(game.answer)
     );
+
     if (errorMessage) {
       const response: SessionPutResponse = {
         success: false,
@@ -77,6 +81,7 @@ export default async function handler(
         board: session.board,
         colors: session.colors,
       };
+      // TODO: In an ideal world, this would be a 4xx, but I'm opting to return a 200 to simplify axios error handling
       res.status(200).json(response);
       return;
     }
@@ -84,6 +89,7 @@ export default async function handler(
     const newColors = getUpdatedColors(body.board, session.colors, game.answer);
     const gameState = getGameState(newColors);
 
+    // Update session state and finish game if complete
     const updatedSession = await prisma.session.update({
       where: {
         id: session.id,
@@ -91,8 +97,8 @@ export default async function handler(
       data: {
         board: body.board,
         colors: getUpdatedColors(body.board, session.colors, game.answer),
-        complete: gameState === "WON" || gameState === "LOST",
-        won: gameState === "WON",
+        complete: gameState !== GameState.IN_PROGRESS,
+        won: gameState === GameState.WON,
       },
     });
 
@@ -105,6 +111,7 @@ export default async function handler(
       board: updatedSession.board,
       colors: updatedSession.colors,
     };
+
     res.status(200).json(response);
   } else {
     res.status(400).json({ message: "Bad request." });

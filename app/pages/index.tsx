@@ -19,31 +19,37 @@ import Leaderboard from "../components/Leaderboard";
 import Image from "next/image";
 
 const Mathler: NextPage = () => {
+  // Global state
   const router = useRouter();
   const { user, authToken, handleLogOut } = useDynamicContext();
 
-  const tileCount = 36;
+  // Desktop state (UI, transitions, etc)
   const [clock, setClock] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [gameActive, setGameActive] = useState<boolean>(true);
+  
+  // Game window state
   const [sessionId, setSessionId] = useState<number | undefined>();
   const [guessNumber, setGuessNumber] = useState<number>(0);
-
-  const [board, setBoard] = useState<string>("?".repeat(tileCount));
-  const [colors, setColors] = useState<string>("W".repeat(tileCount));
+  const [board, setBoard] = useState<string>("?".repeat(36));
+  const [colors, setColors] = useState<string>("W".repeat(36));
   const [target, setTarget] = useState<number>(0);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
+  // Leaderboard window state
   const [leaderboard, setLeaderboard] = useState<LeaderboardGetResponse>();
 
+  // Error modal state
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>("Error.");
   const [messageBody, setMessageBody] = useState<string>(
     "Something went wrong."
   );
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [gameActive, setGameActive] = useState<boolean>(true);
-  const [gameOver, setGameOver] = useState<boolean>(false);
 
+  ///////////////////
   // Lifecycle
+  ///////////////////
   useEffect(() => {
     setInterval(() => setClock(getDisplayTime()), 1000);
   }, []);
@@ -57,13 +63,23 @@ const Mathler: NextPage = () => {
     }
   }, [user]);
 
+
+  ///////////////////
   // API Calls (should be in data directory if larger project)
+  ///////////////////
+
+  /**
+   * Refreshes local leaderboard state.
+   */
   function updateLeaderboard() {
     axios.get<LeaderboardGetResponse>("/api/leaderboard").then((response) => {
       setLeaderboard(response.data);
     });
   }
 
+  /**
+   * Creates a new session (if not exists) and updates all local state.
+   */
   function getOrUpdateNewSession() {
     setLoading(true);
     axios
@@ -97,7 +113,13 @@ const Mathler: NextPage = () => {
       });
   }
 
+  ///////////////////
   // Event Handlers
+  ///////////////////
+
+  /**
+   * Appends user input to the board if it is in bounds of the current guess. If it's not in bounds, it will display an error message via the error modal.
+   */
   function handleInputTileClick(value: string) {
     let nextGuessLocation = board.indexOf("?");
 
@@ -115,6 +137,9 @@ const Mathler: NextPage = () => {
     }
   }
 
+  /**
+   * Deletes the last inputted tile if it is in bounds of the current guess.
+   */
   function handleDelete() {
     let nextGuessLocation = board.indexOf("?");
     if (
@@ -125,6 +150,13 @@ const Mathler: NextPage = () => {
     }
   }
 
+  /**
+   * Attempts to submit the current guess. 
+   * 
+   * If the guess is invalid, handleEnter will display an error message via the error modal.
+   * 
+   * If the guess is valid, handleEnter will disable input and give the user the option to restart the game.
+   */
   function handleEnter() {
     if (user && authToken) {
       const request: SessionPutRequest = {

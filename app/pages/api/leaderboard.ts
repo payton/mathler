@@ -26,6 +26,7 @@ export default async function handler(
       },
       take: 10,
     });
+    // Return top 10 players based on win count and irregardless of game ID
     const response: LeaderboardGetResponse = {
       leaderboard: topPlayers.map((player) => {
         return {

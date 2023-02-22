@@ -24,7 +24,7 @@ export async function getUser(authorizationHeader: string | undefined) {
   try {
     const publicKey = await importSPKI(spki, "RS256");
     const { payload } = await jwtVerify(jwt || "", publicKey, {
-      issuer: "app.dynamic.xyz/cb5b68a5-9b26-4a13-8893-8fbfa62b104b",
+      issuer: `app.dynamic.xyz/${process.env.NEXT_PUBLIC_DYNAMIC_APP_ID}`,
       audience: process.env.NEXT_PUBLIC_AUDIENCE,
     });
 

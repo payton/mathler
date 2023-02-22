@@ -1,3 +1,8 @@
+/**
+ * Returns a new string with the character at the given index replaced with the given replacement string.
+ * 
+ * Required due to JavaScript's lack of immutable strings.
+ */
 export function replaceChar(
   string: string,
   index: number,
@@ -10,6 +15,9 @@ export function replaceChar(
   );
 }
 
+/**
+ * Gets the current time in the format hh:mm:ss AM/PM
+ */
 export function getDisplayTime() {
   let date = new Date();
   let hh = date.getHours();

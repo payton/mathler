@@ -1,7 +1,9 @@
-import { Game, Session } from "@prisma/client";
 import { evaluate } from "mathjs";
 import { GuessBounds, GameState } from "./types";
 
+/**
+ * Asserts that a given guess can be evaulated and contains a valid sequence of characters.
+ */
 export function validateGuess(guess: string) {
   try {
     evaluate(guess);
@@ -12,10 +14,16 @@ export function validateGuess(guess: string) {
   return /^[0-9]([+\/*-]?[0-9])+([+\/*-][0-9])?$/.test(guess);
 }
 
+/**
+ * Asserts that a given guess evalutes to the target number.
+ */
 export function verifyGuessAgainstTarget(guess: string, target: number) {
   return evaluate(guess) === target;
 }
 
+/**
+ * Returns the bounds of the last play on the given board. If the board has no plays, the start and end values will be 0.
+ */
 export function getLastGuessBounds(board: string): GuessBounds {
   const end = board.indexOf("?") == -1 ? board.length : board.indexOf("?");
   const start = end - 6;
@@ -35,8 +43,6 @@ export function getLastGuessBounds(board: string): GuessBounds {
 
 /**
  * Asserts that general board structure is valid outside of the context of the current game.
- * @param board board state to validate
- * @returns true if valid, false otherwise
  */
 export function isValidBoard(board: string): boolean {
   return (
@@ -47,11 +53,6 @@ export function isValidBoard(board: string): boolean {
 
 /**
  * Checks if new board state is valid compared to the old one. If not, returns an error message to be displayed to the user.
- *
- * @param newBoard proposed board state from player
- * @param oldBoard current board state
- * @param target expression evaluation target
- * @returns undefined if valid, otherwise returns error message to be displayed to user
  */
 export function isValidMove(
   newBoard: string,
@@ -96,6 +97,10 @@ export function isValidMove(
   return undefined;
 }
 
+/**
+ * Updates a given color state based on the new board state and the answer. The new board state is assumed
+ * to be valid and for it to be one play ahead of the old colors state.
+ */
 export function getUpdatedColors(
   newBoard: string,
   oldColors: string,
@@ -128,6 +133,9 @@ export function getUpdatedColors(
   );
 }
 
+/**
+ * Checks for end-game status (win, loss, or in progress) for a given color state.
+ */
 export function getGameState(colors: string): GameState {
   const end = colors.indexOf("W") == -1 ? colors.length : colors.indexOf("W");
   const start = end - 6;
