@@ -1,7 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Tile from "../components/Tile";
-import InputTile from "../components/InputTile";
 import { useEffect, useState } from "react";
 import { useDynamicContext } from "@dynamic-labs/sdk-react";
 import axios from "axios";
@@ -43,6 +41,7 @@ const Mathler: NextPage = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [gameActive, setGameActive] = useState<boolean>(true);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   // Lifecycle
   useEffect(() => {
@@ -66,6 +65,7 @@ const Mathler: NextPage = () => {
   }
 
   function getOrUpdateNewSession() {
+    setLoading(true);
     axios
       .post<SessionPostResponse>(
         "/api/play",
@@ -92,6 +92,7 @@ const Mathler: NextPage = () => {
             setTarget(response.data.target);
             setGuessNumber(response.data.colors.indexOf("W") / 6);
             setLoading(false);
+            setGameOver(false);
           });
       });
   }
@@ -150,8 +151,7 @@ const Mathler: NextPage = () => {
               setMessageBody("View your progress on the leaderboard.");
               setShowMessage(true);
               updateLeaderboard();
-              setGameActive(false);
-              getOrUpdateNewSession();
+              setGameOver(true);
             } else {
               setMessageTitle("You lost.");
               setMessageBody("Better luck next time.");
@@ -219,6 +219,8 @@ const Mathler: NextPage = () => {
                     enterCallback={handleEnter}
                     deleteCallback={handleDelete}
                     inputCallback={handleInputTileClick}
+                    restartCallback={() => getOrUpdateNewSession()}
+                    disabled={gameOver}
                   ></Controls>
                 </div>
                 <div className="status-bar">
@@ -268,7 +270,7 @@ const Mathler: NextPage = () => {
       </div>
 
       {showMessage && (
-        <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm">
+        <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm flex items-center">
           <div className="window select-none w-fit mx-auto">
             <div className="title-bar bg-blue-900">
               <div className="title-bar-text">

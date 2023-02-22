@@ -4,6 +4,8 @@ type ControlsProps = {
   enterCallback: () => void;
   deleteCallback: () => void;
   inputCallback: (i: string) => void;
+  restartCallback: () => void;
+  disabled: boolean;
 };
 
 const Controls = (props: ControlsProps) => {
@@ -24,6 +26,7 @@ const Controls = (props: ControlsProps) => {
         key={`number-input-${i}`}
         value={i}
         callback={() => props.inputCallback(i)}
+        disabled={props.disabled}
       ></InputTile>
     );
   });
@@ -34,6 +37,7 @@ const Controls = (props: ControlsProps) => {
         key={`operator-input-${i}`}
         value={i}
         callback={() => props.inputCallback(i)}
+        disabled={props.disabled}
       ></InputTile>
     );
   });
@@ -45,13 +49,20 @@ const Controls = (props: ControlsProps) => {
       </div>
       <div className="flex row-span-1 justify-center">
         <InputTile
+          value={"Restart"}
+          callback={() => props.restartCallback()}
+          disabled={!props.disabled}
+        ></InputTile>
+        <InputTile
           value={"Enter"}
           callback={() => props.enterCallback()}
+          disabled={props.disabled}
         ></InputTile>
         {renderedOperators}
         <InputTile
           value={"Delete"}
           callback={() => props.deleteCallback()}
+          disabled={props.disabled}
         ></InputTile>
       </div>
     </div>

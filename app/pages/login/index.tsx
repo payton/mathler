@@ -66,7 +66,7 @@ const Login: NextPage = () => {
                     value="No passwords here!"
                   />
                 </div>
-                <div className="col-span-6 row-span-1 w-full items-end">
+                <div className="col-span-6 row-span-1 w-full flex place-content-end">
                   <button
                     className="px-4"
                     onClick={() => setShowAuthFlow(true)}
