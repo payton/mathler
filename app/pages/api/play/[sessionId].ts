@@ -70,10 +70,8 @@ export default async function handler(
       const response: SessionPutResponse = {
         success: false,
         message: errorMessage,
-        status: {
-          gameOver: false,
-          won: false,
-        },
+        complete: false,
+        won: false,
         id: session.id,
         board: session.board,
         colors: session.colors,
@@ -100,10 +98,8 @@ export default async function handler(
     const response: SessionPutResponse = {
       success: true,
       message: "Success",
-      status: {
-        gameOver: updatedSession.complete,
-        won: gameState === "WON",
-      },
+      complete: updatedSession.complete,
+      won: updatedSession.won,
       id: updatedSession.id,
       board: updatedSession.board,
       colors: updatedSession.colors,

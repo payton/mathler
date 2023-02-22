@@ -17,14 +17,19 @@ export type SessionPutRequest = {
 export type SessionPutResponse = {
   success: boolean;
   id: number;
-  status: {
-    gameOver: boolean;
-    won: boolean;
-  };
+  complete: boolean;
+  won: boolean;
   message: string;
   board: string;
   colors: string;
 };
+
+export type LeaderboardGetResponse = {
+  leaderboard: {
+    owner: string;
+    count: number;
+  }[];
+}
 
 export type GuessBounds = {
   start: number;

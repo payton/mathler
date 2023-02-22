@@ -10,12 +10,14 @@ import {
   StartPostResponse,
   SessionPutRequest,
   SessionPutResponse,
+  LeaderboardGetResponse,
 } from "../utils/types";
 import { replaceChar, getDisplayTime } from "../utils/misc";
 import "98.css";
 import { useRouter } from "next/router";
 import Board from "../components/Board";
 import Controls from "../components/Controls";
+import Leaderboard from "../components/Leaderboard";
 
 const Mathler: NextPage = () => {
   const router = useRouter();
@@ -30,6 +32,8 @@ const Mathler: NextPage = () => {
   const [colors, setColors] = useState<string>("W".repeat(tileCount));
   const [target, setTarget] = useState<number>(0);
 
+  const [leaderboard, setLeaderboard] = useState<LeaderboardGetResponse>();
+
   const [showMessage, setShowMessage] = useState<boolean>(false);
   const [messageTitle, setMessageTitle] = useState<string>("Error.");
   const [messageBody, setMessageBody] = useState<string>(
@@ -37,6 +41,7 @@ const Mathler: NextPage = () => {
   );
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [gameActive, setGameActive] = useState<boolean>(true);
 
   // Lifecycle
   useEffect(() => {
@@ -75,6 +80,9 @@ const Mathler: NextPage = () => {
               setLoading(false);
             });
         });
+      axios.get<LeaderboardGetResponse>("/api/leaderboard").then((response) => {
+        setLeaderboard(response.data);
+      });
     }
   }, [user]);
 
@@ -123,6 +131,19 @@ const Mathler: NextPage = () => {
             setMessageTitle("Error submitting guess.");
             setMessageBody(response.data.message);
             setShowMessage(true);
+          } else if (response.data.complete) {
+            setBoard(response.data.board);
+            setColors(response.data.colors);
+            setGuessNumber(guessNumber + 1);
+            if (response.data.won) {
+              setMessageTitle("You won!");
+              setMessageBody("View your progress on the leaderboard.");
+              setShowMessage(true);
+            } else {
+              setMessageTitle("You lost.");
+              setMessageBody("Better luck next time.");
+              setShowMessage(true);
+            }
           } else {
             setBoard(response.data.board);
             setColors(response.data.colors);
@@ -149,7 +170,7 @@ const Mathler: NextPage = () => {
       >
         <div className="w-full h-full">
           <div className="desktop-screen window inline-block select-none">
-            {!loading && (
+            {!loading && gameActive && (
               <>
                 <div className="title-bar">
                   <div className="title-bar-text">
@@ -184,6 +205,9 @@ const Mathler: NextPage = () => {
                 </div>
               </>
             )}
+            {!loading && leaderboard && !gameActive && (
+              <Leaderboard data={leaderboard}></Leaderboard>
+            )}
           </div>
         </div>
         <div className="h-8 menu-bar flex desktop-screen">
@@ -199,10 +223,11 @@ const Mathler: NextPage = () => {
                 &nbsp;Sign Out
               </div>
             </button>
-            <button className="m-1">
-              <div className="flex items-left justify-evenly">
-                Mathler - Session ID ({sessionId})
-              </div>
+            <button className="m-1 flex items-center justify-evenly" onClick={() => setGameActive(true)}>
+              Mathler - Session ID ({sessionId})
+            </button>
+            <button className="m-1 flex items-center justify-evenly" onClick={() => setGameActive(false)}>
+              Leaderboard
             </button>
           </div>
           <div className="clock justify-end px-4 items-center flex m-1 cursor-default select-none w-28">

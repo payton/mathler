@@ -14,7 +14,6 @@ export default async function handler(
     res.status(401).json({ message: "Unauthorized." });
     return;
   }
-  console.log(user);
 
   if (req.method === "POST") {
     const existingSession = await prisma.session.findFirst({
