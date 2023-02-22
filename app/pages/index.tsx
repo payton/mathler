@@ -9,6 +9,7 @@ import { SessionGetResponse, StartPostResponse, SessionPutRequest, SessionPutRes
 import { replaceChar, getDisplayTime } from '../utils/misc';
 import '98.css'
 import { useRouter } from 'next/router';
+import Board from '../components/Board';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -163,9 +164,7 @@ const Home: NextPage = () => {
                 
                 <div className='window-body'>
                   <div className='flex justify-center'>
-                    <div className='grid grid-cols-6 grid-rows-6'>
-                      {renderedTiles}
-                    </div>
+                    <Board board={board} colors={colors}></Board>
                   </div>
                   <div className='grid grid-rows-2 my-4'>
                     <div className='flex row-span-1 justify-center'>
