@@ -10,6 +10,7 @@ import { replaceChar, getDisplayTime } from '../utils/misc';
 import '98.css'
 import { useRouter } from 'next/router';
 import Board from '../components/Board';
+import Controls from '../components/Controls';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -109,30 +110,6 @@ const Home: NextPage = () => {
     }
   }
 
-  // UI Rendering
-  const renderedTiles = board.split('').map((char, index) => {
-    if (char == "?") {
-      return (
-        <Tile key={`tile-${index}`} id={(index).toString()} value={null} color={colors.split('')[index]}></Tile>
-      )
-    }
-    return (
-      <Tile key={`tile-${index}`} id={(index).toString()} value={char} color={colors.split('')[index]}></Tile>
-    )
-  });
-
-  const renderedNumberInputs = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].map(i => {
-    return (
-      <InputTile key={`number-input-${i}`} value={i} callback={() => handleInputTileClick(i)}></InputTile>
-    )
-  });
-
-  const renderedOperators = ["+", "-", "*", "/"].map(i => {
-    return (
-      <InputTile key={`operator-input-${i}`} value={i} callback={() => handleInputTileClick(i)}></InputTile>
-    )
-  });
-
   return (
     <>
       <Head>
@@ -166,16 +143,7 @@ const Home: NextPage = () => {
                   <div className='flex justify-center'>
                     <Board board={board} colors={colors}></Board>
                   </div>
-                  <div className='grid grid-rows-2 my-4'>
-                    <div className='flex row-span-1 justify-center'>
-                      {renderedNumberInputs}
-                    </div>
-                    <div className='flex row-span-1 justify-center'>
-                      <InputTile value={"Enter"} callback={() => handleEnter()}></InputTile>
-                      {renderedOperators}
-                      <InputTile value={"Delete"} callback={() => handleDelete()}></InputTile>
-                    </div>
-                  </div>
+                  <Controls enterCallback={handleEnter} deleteCallback={handleDelete} inputCallback={handleInputTileClick}></Controls>
                 </div>
                 <div className="status-bar">
                   <p className="status-bar-field">Target: {target}</p>
