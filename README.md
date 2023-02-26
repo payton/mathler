@@ -29,6 +29,9 @@ My version of Mathler is styled to look like a Windows 98 desktop game with a bu
     * Status Codes
         * 200: Successfully aggregated leaderboard
 
+## Configuration
+A `app/.env` file is included in this repository for simplicity. This is for running a development server and integration tests.
+
 ## Tests
 Tests are split up into unit and integration tests. Unit tests test the core business logic of Mathler. Integration tests test request flows with a local database to assert status codes and response formatting.
 
