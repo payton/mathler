@@ -34,6 +34,7 @@ describe('/api/leaderboard API Endpoint', () => {
 
     beforeEach(async () => {
         await client.session.deleteMany({});
+        await new Promise(process.nextTick);
     })
 
     it('should aggregate two of three winning sessions', async () => {

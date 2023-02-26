@@ -55,6 +55,7 @@ describe('/api/play/:sessionId API Endpoint', () => {
             }
         });
         sessionId = session.id;
+        await new Promise(process.nextTick);
     });
 
     it('should 400 if a non-existent sessionId is assigned', async () => {
