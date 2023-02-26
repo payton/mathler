@@ -20,6 +20,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "GET" && req.method !== "PUT") {
+    res.status(405).json({ message: "Method not allowed." });
+    return;
+  }
+
   const user: any = await getUser(req.headers.authorization);
   if (user === null) {
     res.status(401).json({ message: "Unauthorized." });
@@ -28,23 +33,30 @@ export default async function handler(
 
   const { sessionId } = req.query;
   if (!sessionId) {
-    res.status(400).json({ message: "Bad request." });
+    res.status(400).json({ message: "Bad request. No Session ID." });
     return;
   }
 
-  const session = await prisma.session.findFirstOrThrow({
-    where: {
-      id: parseInt(sessionId.toString()),
-      owner: user.info.walletPublicKey,
-      complete: false,
-    },
-  });
+  let session;
+  let game;
+  try {
+    session = await prisma.session.findFirstOrThrow({
+      where: {
+        id: parseInt(sessionId.toString()),
+        owner: user.info.walletPublicKey,
+        complete: false,
+      },
+    });
 
-  const game = await prisma.game.findUniqueOrThrow({
-    where: {
-      id: session.gameId,
-    },
-  });
+    game = await prisma.game.findUniqueOrThrow({
+      where: {
+        id: session.gameId,
+      },
+    });
+  } catch (e) {
+    res.status(400).json({ message: "Game not found." });
+    return;
+  }
 
   if (req.method === "GET") {
     // Leaving this here for testing
@@ -60,7 +72,7 @@ export default async function handler(
     const body: SessionPutRequest = req.body;
 
     if (!body.board) {
-      res.status(400).json({ message: "Bad request." });
+      res.status(400).json({ message: "Bad request. No Board." });
       return;
     }
 
@@ -114,6 +126,7 @@ export default async function handler(
 
     res.status(200).json(response);
   } else {
+    // Should never reach here
     res.status(400).json({ message: "Bad request." });
   }
 }

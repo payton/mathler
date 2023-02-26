@@ -36,10 +36,14 @@ export default async function handler(
 
     const count = await prisma.game.count();
 
+    const game = (await prisma.game.findMany({
+      skip: count === 1 ? 0 : Math.floor(Math.random() * count),
+    }))[0];
+
     // Get a random game for this new session
     const session = await prisma.session.create({
       data: {
-        gameId: Math.floor(Math.random() * count) + 1,
+        gameId: game.id,
         owner: user.info.walletPublicKey,
       },
     });

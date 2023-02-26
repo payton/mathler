@@ -26,16 +26,18 @@ export default async function handler(
       },
       take: 10,
     });
+    let leaderboard = topPlayers.map((player) => {
+      return {
+        owner: player.owner,
+        count: player._count.owner,
+      };
+    });
+    leaderboard.sort((a, b) => b.count - a.count);
     // Return top 10 players based on win count and irregardless of game ID
     const response: LeaderboardGetResponse = {
-      leaderboard: topPlayers.map((player) => {
-        return {
-          owner: player.owner,
-          count: player._count.owner,
-        };
-      }),
+      leaderboard: leaderboard,
     };
-    res.status(201).json(response);
+    res.status(200).json(response);
   } else {
     res.status(400).json({ message: "Bad request." });
   }
