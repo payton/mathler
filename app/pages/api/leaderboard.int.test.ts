@@ -150,21 +150,21 @@ describe('/api/leaderboard API Endpoint', () => {
         });
     });
 
-    it('should 400 on POST requests', async () => {
+    it('should 405 on POST requests', async () => {
         const { req, res } = mockRequestResponse('POST');
         await leaderboard(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 
-    it('should 400 on PUT requests', async () => {
+    it('should 405 on PUT requests', async () => {
         const { req, res } = mockRequestResponse('PUT');
         await leaderboard(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 
-    it('should 400 on DELETE requests', async () => {
+    it('should 405 on DELETE requests', async () => {
         const { req, res } = mockRequestResponse('DELETE');
         await leaderboard(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 });

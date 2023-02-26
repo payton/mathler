@@ -83,21 +83,21 @@ describe('/api/play API Endpoint', () => {
         });
     });
 
-    it('should 400 on GET requests', async () => {
+    it('should 405 on GET requests', async () => {
         const { req, res } = mockRequestResponse('GET');
         await play(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 
-    it('should 400 on PUT requests', async () => {
+    it('should 405 on PUT requests', async () => {
         const { req, res } = mockRequestResponse('PUT');
         await play(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 
-    it('should 400 on DELETE requests', async () => {
+    it('should 405 on DELETE requests', async () => {
         const { req, res } = mockRequestResponse('DELETE');
         await play(req, res);
-        expect(res.statusCode).toBe(400);
+        expect(res.statusCode).toBe(405);
     });
 });

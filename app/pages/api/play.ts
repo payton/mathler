@@ -55,6 +55,6 @@ export default async function handler(
 
     res.status(201).json(response);
   } else {
-    res.status(400).json({ message: "Bad request." });
+    res.status(405).json({ message: "Bad request." });
   }
 }
