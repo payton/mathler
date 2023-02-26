@@ -38,7 +38,6 @@ describe('/api/play API Endpoint', () => {
         await client.game.deleteMany({});
         const game = await client.game.create({
             data: {
-                id: 1,
                 answer: '119-41'
             },
         })

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.1.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,7 @@
     "lint": "next lint",
     "test": "jest",
     "unit": "jest --testPathPattern=unit\\.test\\.ts$",
-    "integration": "jest --testPathPattern=int\\.test\\.ts$"
+    "integration": "jest --testPathPattern=int\\.test\\.ts$ --runInBand"
   },
   "dependencies": {
     "@dynamic-labs/sdk-react": "^0.14.36",
